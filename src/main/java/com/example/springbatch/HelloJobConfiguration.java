@@ -3,7 +3,6 @@ package com.example.springbatch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.support.DefaultBatchConfiguration;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
@@ -14,7 +13,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @RequiredArgsConstructor
 @Configuration
-public class HelloJobConfiguration extends DefaultBatchConfiguration {
+public class HelloJobConfiguration {
 
     @Bean
     public Job helloJob(JobRepository jobRepository, Step helloStep1, Step helloStep2) {
@@ -38,7 +37,7 @@ public class HelloJobConfiguration extends DefaultBatchConfiguration {
                 // tasklet >> 실제 실행하고자 하는 비즈니스 로직 작성
                 .tasklet((contribution, chunkContext) -> {
                     System.out.println("====================================");
-                    System.out.println(" helloStep1 executed ");
+                    System.out.println(" helloStep2 executed ");
                     System.out.println("====================================");
                     return RepeatStatus.FINISHED;
                 }, ptm).build();
@@ -49,7 +48,7 @@ public class HelloJobConfiguration extends DefaultBatchConfiguration {
         return new StepBuilder("HelloStep1", jobRepository)
                 .tasklet((contribution, chunkContext) -> {
                     System.out.println("====================================");
-                    System.out.println(" helloStep2 executed ");
+                    System.out.println(" helloStep1 executed ");
                     System.out.println("====================================");
                     return RepeatStatus.FINISHED;
                 }, ptm).build();
