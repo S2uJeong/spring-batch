@@ -23,6 +23,7 @@ public class HelloJobConfiguration {
     public Job helloJob() {
        return jobBuilderFactory.get("helloJob")
                .start(helloStep())
+               .next(byeStep())
                .build();
     }
 
@@ -31,6 +32,16 @@ public class HelloJobConfiguration {
         return stepBuilderFactory.get("helloStep")
                 .tasklet((contribution, chunkContext) -> {
                     System.out.println(">>>>>>>>>>>> Hello Spring Batch");
+                    return RepeatStatus.FINISHED;
+                })
+                .build();
+    }
+
+    @Bean
+    public Step byeStep() {
+        return stepBuilderFactory.get("byeStep")
+                .tasklet((contribution, chunkContext) -> {
+                    System.out.println(">>>>>>>>>>>> Bye Spring Batch");
                     return RepeatStatus.FINISHED;
                 })
                 .build();
