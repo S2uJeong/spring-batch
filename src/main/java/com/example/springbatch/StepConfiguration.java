@@ -1,5 +1,6 @@
 package com.example.springbatch;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -9,41 +10,34 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 //@Configuration
-public class HelloJobConfiguration {
+@RequiredArgsConstructor
+public class StepConfiguration {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
 
-    public HelloJobConfiguration(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory) {
-        this.jobBuilderFactory = jobBuilderFactory;
-        this.stepBuilderFactory = stepBuilderFactory;
-    }
-
     @Bean
-    public Job helloJob() {
-       return jobBuilderFactory.get("helloJob")
-               .start(helloStep())
-               .next(byeStep())
+    public Job BacthJob() {
+       return jobBuilderFactory.get("Job")
+               .start(step1())
+               .next(step2())
                .build();
     }
 
     @Bean
-    public Step helloStep() {
-        return stepBuilderFactory.get("helloStep")
+    public Step step1() {
+        return stepBuilderFactory.get("step1")
                 .tasklet((contribution, chunkContext) -> {
-                    System.out.println(">>>>>>>>>>>> Hello Spring Batch");
+                    System.out.println(">>>>>>> StepConfiguration.step1111 >>>>>>>");
                     return RepeatStatus.FINISHED;
                 })
                 .build();
     }
 
     @Bean
-    public Step byeStep() {
-        return stepBuilderFactory.get("byeStep")
-                .tasklet((contribution, chunkContext) -> {
-                    System.out.println(">>>>>>>>>>>> Bye Spring Batch");
-                    return RepeatStatus.FINISHED;
-                })
+    public Step step2() {
+        return stepBuilderFactory.get("step2")
+                .tasklet(new CustomTasklet())
                 .build();
     }
 }

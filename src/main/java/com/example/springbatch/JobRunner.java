@@ -10,7 +10,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import java.util.Date;
 
-// ApplicationRunner springboo가 초기화되면 제일 먼저 실행되는 인터페이스
+// ApplicationRunner springboot가 초기화되면 제일 먼저 실행되는 인터페이스
 @Component
 public class JobRunner implements ApplicationRunner {
 
@@ -23,8 +23,8 @@ public class JobRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         JobParameters jobParameters = new JobParametersBuilder()
-                .addString("name", "user5")
-                .addLong("age", 26L)
+                .addString("name", "StepExecutionCon")
+                .addString("count", "3")
                 .toJobParameters();
 
         jobLauncher.run(job, jobParameters);
